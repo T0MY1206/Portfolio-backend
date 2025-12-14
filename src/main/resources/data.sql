@@ -10,6 +10,34 @@
 -- ============================================
 
 -- ============================================
+-- MIGRACIÓN: Agregar columnas de traducción a projects
+-- ============================================
+-- Estas columnas permiten almacenar traducciones de nombre y descripción
+-- Si las columnas ya existen, estos comandos no fallarán (dependiendo del SGBD)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'projects' AND column_name = 'name_en') THEN
+        ALTER TABLE projects ADD COLUMN name_en VARCHAR(255);
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'projects' AND column_name = 'name_es') THEN
+        ALTER TABLE projects ADD COLUMN name_es VARCHAR(255);
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'projects' AND column_name = 'description_en') THEN
+        ALTER TABLE projects ADD COLUMN description_en TEXT;
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'projects' AND column_name = 'description_es') THEN
+        ALTER TABLE projects ADD COLUMN description_es TEXT;
+    END IF;
+END $$;
+
+-- ============================================
 -- PROFILE (Información Personal)
 -- ============================================
 INSERT INTO profiles (id, full_name, title, location, email, phone, summary)

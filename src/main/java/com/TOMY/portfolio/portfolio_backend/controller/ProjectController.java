@@ -22,16 +22,19 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping
-    @Operation(summary = "Obtener todos los proyectos", description = "Retorna una lista de todos los proyectos con sus tecnologías")
-    public ResponseEntity<List<ProjectDTO>> getAllProjects() {
-        List<ProjectDTO> projects = projectService.getAllProjects();
+    @Operation(summary = "Obtener todos los proyectos", description = "Retorna una lista de todos los proyectos con sus tecnologías. Soporta parámetro 'lang' (es/en) para traducciones")
+    public ResponseEntity<List<ProjectDTO>> getAllProjects(
+            @RequestParam(required = false, defaultValue = "es") String lang) {
+        List<ProjectDTO> projects = projectService.getAllProjects(lang);
         return ResponseEntity.ok(projects);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener proyecto por ID", description = "Retorna un proyecto específico por su ID")
-    public ResponseEntity<ProjectDTO> getProjectById(@PathVariable Long id) {
-        ProjectDTO project = projectService.getProjectById(id);
+    @Operation(summary = "Obtener proyecto por ID", description = "Retorna un proyecto específico por su ID. Soporta parámetro 'lang' (es/en) para traducciones")
+    public ResponseEntity<ProjectDTO> getProjectById(
+            @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "es") String lang) {
+        ProjectDTO project = projectService.getProjectById(id, lang);
         return ResponseEntity.ok(project);
     }
 

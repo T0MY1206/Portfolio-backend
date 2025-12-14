@@ -18,6 +18,19 @@ public class Project {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    // Campos de traducción (opcionales)
+    @Column(name = "name_en")
+    private String nameEn;
+
+    @Column(name = "name_es")
+    private String nameEs;
+
+    @Column(name = "description_en", columnDefinition = "TEXT")
+    private String descriptionEn;
+
+    @Column(name = "description_es", columnDefinition = "TEXT")
+    private String descriptionEs;
+
     private String imageUrl;
 
     private String repositoryUrl;
@@ -99,5 +112,38 @@ public class Project {
 
     public void setTechnologies(Set<Technology> technologies) {
         this.technologies = technologies;
+    }
+
+    // Getters and Setters para traducciones
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
+    }
+
+    public String getNameEs() {
+        return nameEs;
+    }
+
+    public void setNameEs(String nameEs) {
+        this.nameEs = nameEs;
+    }
+
+    public String getDescriptionEn() {
+        return descriptionEn;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
+    }
+
+    public String getDescriptionEs() {
+        return descriptionEs;
+    }
+
+    public void setDescriptionEs(String descriptionEs) {
+        this.descriptionEs = descriptionEs;
     }
 }

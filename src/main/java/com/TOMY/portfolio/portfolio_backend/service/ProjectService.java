@@ -26,17 +26,17 @@ public class ProjectService {
     @Autowired
     private TechnologyRepository technologyRepository;
 
-    public List<ProjectDTO> getAllProjects() {
+    public List<ProjectDTO> getAllProjects(String lang) {
         return projectRepository.findAllByOrderByIdDesc()
                 .stream()
-                .map(this::convertToDTO)
+                .map(project -> convertToDTO(project, lang))
                 .collect(Collectors.toList());
     }
 
-    public ProjectDTO getProjectById(Long id) {
+    public ProjectDTO getProjectById(Long id, String lang) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con id: " + id));
-        return convertToDTO(project);
+        return convertToDTO(project, lang);
     }
 
     public ProjectDTO createProject(ProjectRequestDTO requestDTO) {
@@ -63,7 +63,7 @@ public class ProjectService {
         }
 
         Project savedProject = projectRepository.save(project);
-        return convertToDTO(savedProject);
+        return convertToDTO(savedProject, "es"); // Idioma por defecto para creación
     }
 
     public ProjectDTO updateProject(Long id, ProjectRequestDTO requestDTO) {
@@ -95,7 +95,7 @@ public class ProjectService {
         }
 
         Project updatedProject = projectRepository.save(project);
-        return convertToDTO(updatedProject);
+        return convertToDTO(updatedProject, "es"); // Idioma por defecto para actualización
     }
 
     public void deleteProject(Long id) {
@@ -105,7 +105,7 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    private ProjectDTO convertToDTO(Project project) {
+    private ProjectDTO convertToDTO(Project project, String lang) {
         Set<TechnologyDTO> technologyDTOs = project.getTechnologies()
                 .stream()
                 .map(tech -> new TechnologyDTO(
@@ -117,14 +117,38 @@ public class ProjectService {
                 ))
                 .collect(Collectors.toSet());
 
+        // Obtener nombre y descripción traducidos según el idioma
+        String name = getTranslatedName(project, lang);
+        String description = getTranslatedDescription(project, lang);
+
         return new ProjectDTO(
                 project.getId(),
-                project.getName(),
-                project.getDescription(),
+                name,
+                description,
                 project.getImageUrl(),
                 project.getRepositoryUrl(),
                 project.getLiveUrl(),
                 technologyDTOs
         );
+    }
+
+    private String getTranslatedName(Project project, String lang) {
+        if ("en".equalsIgnoreCase(lang) && project.getNameEn() != null && !project.getNameEn().isEmpty()) {
+            return project.getNameEn();
+        } else if ("es".equalsIgnoreCase(lang) && project.getNameEs() != null && !project.getNameEs().isEmpty()) {
+            return project.getNameEs();
+        }
+        // Si no hay traducción, devolver el nombre por defecto
+        return project.getName();
+    }
+
+    private String getTranslatedDescription(Project project, String lang) {
+        if ("en".equalsIgnoreCase(lang) && project.getDescriptionEn() != null && !project.getDescriptionEn().isEmpty()) {
+            return project.getDescriptionEn();
+        } else if ("es".equalsIgnoreCase(lang) && project.getDescriptionEs() != null && !project.getDescriptionEs().isEmpty()) {
+            return project.getDescriptionEs();
+        }
+        // Si no hay traducción, devolver la descripción por defecto
+        return project.getDescription();
     }
 }
