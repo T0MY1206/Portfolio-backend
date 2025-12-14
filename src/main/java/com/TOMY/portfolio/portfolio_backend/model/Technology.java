@@ -1,8 +1,6 @@
 package com.TOMY.portfolio.portfolio_backend.model;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "technologies")
@@ -19,16 +17,21 @@ public class Technology {
     @Column(nullable = false)
     private TechnologyType type;
 
-    @ManyToMany(mappedBy = "technologies")
-    private Set<Experience> experiences = new HashSet<>();
+    @Column(nullable = false)
+    private Integer yearsOfExperience;
+
+    @Column(nullable = false)
+    private Boolean isCurrentlyUsed = false;
 
     // Constructors
     public Technology() {
     }
 
-    public Technology(String name, TechnologyType type) {
+    public Technology(String name, TechnologyType type, Integer yearsOfExperience, Boolean isCurrentlyUsed) {
         this.name = name;
         this.type = type;
+        this.yearsOfExperience = yearsOfExperience;
+        this.isCurrentlyUsed = isCurrentlyUsed;
     }
 
     // Getters and Setters
@@ -56,11 +59,19 @@ public class Technology {
         this.type = type;
     }
 
-    public Set<Experience> getExperiences() {
-        return experiences;
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
-    public void setExperiences(Set<Experience> experiences) {
-        this.experiences = experiences;
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public Boolean getIsCurrentlyUsed() {
+        return isCurrentlyUsed;
+    }
+
+    public void setIsCurrentlyUsed(Boolean isCurrentlyUsed) {
+        this.isCurrentlyUsed = isCurrentlyUsed;
     }
 }

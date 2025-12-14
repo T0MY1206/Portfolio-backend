@@ -2,7 +2,6 @@ package com.TOMY.portfolio.portfolio_backend.repository;
 
 import com.TOMY.portfolio.portfolio_backend.model.Experience;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,6 +10,5 @@ import java.util.List;
 public interface ExperienceRepository extends JpaRepository<Experience, Long> {
     List<Experience> findAllByOrderByStartDateDesc();
     
-    @Query("SELECT e FROM Experience e WHERE e.isCurrent = true ORDER BY e.startDate DESC")
-    List<Experience> findCurrentExperiences();
+    List<Experience> findByIsCurrentTrueOrderByStartDateDesc();
 }

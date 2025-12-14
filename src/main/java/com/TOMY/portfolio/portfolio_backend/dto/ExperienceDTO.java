@@ -3,42 +3,48 @@ package com.TOMY.portfolio.portfolio_backend.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Set;
 
-public class ExperienceRequestDTO {
-
+public class ExperienceDTO {
+    private Long id;
+    
     @NotBlank(message = "El título es obligatorio")
     private String title;
-
+    
     @NotBlank(message = "La empresa es obligatoria")
     private String company;
-
-    private String description;
-
+    
     @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate startDate;
-
+    
     private LocalDate endDate;
-
+    
     private Boolean isCurrent = false;
-
-    private Set<Long> technologyIds;
+    
+    private String description;
 
     // Constructors
-    public ExperienceRequestDTO() {
+    public ExperienceDTO() {
     }
 
-    public ExperienceRequestDTO(String title, String company, String description, LocalDate startDate, LocalDate endDate, Boolean isCurrent, Set<Long> technologyIds) {
+    public ExperienceDTO(Long id, String title, String company, LocalDate startDate, LocalDate endDate, Boolean isCurrent, String description) {
+        this.id = id;
         this.title = title;
         this.company = company;
-        this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.isCurrent = isCurrent;
-        this.technologyIds = technologyIds;
+        this.description = description;
     }
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -53,14 +59,6 @@ public class ExperienceRequestDTO {
 
     public void setCompany(String company) {
         this.company = company;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDate getStartDate() {
@@ -87,11 +85,11 @@ public class ExperienceRequestDTO {
         this.isCurrent = isCurrent;
     }
 
-    public Set<Long> getTechnologyIds() {
-        return technologyIds;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTechnologyIds(Set<Long> technologyIds) {
-        this.technologyIds = technologyIds;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

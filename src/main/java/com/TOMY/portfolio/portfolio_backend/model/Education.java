@@ -4,40 +4,39 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "experiences")
-public class Experience {
+@Table(name = "educations")
+public class Education {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String title;
+    private String degree;
 
     @Column(nullable = false)
-    private String company;
+    private String institution;
 
     @Column(nullable = false)
+    private String status; // "In Progress", "Completed", etc.
+
     private LocalDate startDate;
 
     private LocalDate endDate;
-
-    @Column(nullable = false)
-    private Boolean isCurrent = false;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     // Constructors
-    public Experience() {
+    public Education() {
     }
 
-    public Experience(String title, String company, LocalDate startDate, LocalDate endDate, Boolean isCurrent, String description) {
-        this.title = title;
-        this.company = company;
+    public Education(String degree, String institution, String status, LocalDate startDate, LocalDate endDate, String description) {
+        this.degree = degree;
+        this.institution = institution;
+        this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.isCurrent = isCurrent;
         this.description = description;
     }
 
@@ -50,20 +49,28 @@ public class Experience {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDegree() {
+        return degree;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
-    public String getCompany() {
-        return company;
+    public String getInstitution() {
+        return institution;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public LocalDate getStartDate() {
@@ -80,14 +87,6 @@ public class Experience {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public Boolean getIsCurrent() {
-        return isCurrent;
-    }
-
-    public void setIsCurrent(Boolean isCurrent) {
-        this.isCurrent = isCurrent;
     }
 
     public String getDescription() {

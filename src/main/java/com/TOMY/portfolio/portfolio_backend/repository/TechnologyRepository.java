@@ -12,5 +12,7 @@ import java.util.Optional;
 public interface TechnologyRepository extends JpaRepository<Technology, Long> {
     Optional<Technology> findByName(String name);
     List<Technology> findByType(TechnologyType type);
+    List<Technology> findByIsCurrentlyUsed(Boolean isCurrentlyUsed);
+    List<Technology> findByTypeAndIsCurrentlyUsed(TechnologyType type, Boolean isCurrentlyUsed);
     boolean existsByName(String name);
 }
